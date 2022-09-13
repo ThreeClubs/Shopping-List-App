@@ -1,0 +1,27 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+    color: purple;
+}
+
+p {
+    color: #333;
+}
+
+.button {
+    background-color: #333;
+    color: #fcfcfc;
+    border: none;
+    margin: 10px;
+    padding: 5px 25px;
+    border-radius: 5px;
+}
+
+.button:hover {
+  box-shadow: 0 2px 2px 3px rgb(50, 50, 50, 0.3);
+  transform: translateY(-1px);
+}
