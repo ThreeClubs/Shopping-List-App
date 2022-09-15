@@ -9,6 +9,10 @@
   </head>
   <body>
     <div id="container">
+      <h1 id="title">Shopping Master</h1>
+      <h2 id="sub">
+        "Never forget a shopping item again..."" - Jay-Z
+      </h2>
       <div id="list-container">
         <h1>Shopping List</h1>
         <input type="text" placeholder="e.g. Tomato" id="item" />
@@ -16,12 +20,31 @@
         <button onclick="addItem()" class="button">Add item to list</button>
         <p id="display"></p>
       </div>
-      <div id="check-list-container"></div>
+      <div id="check-list-container">
+        <h1>Check Your List</h1>
+        <p>
+          Enter all of the items you've currently got in your basket, separated
+          by a comma and a space
+        </p>
+        <input
+          type="text"
+          placeholder="e.g. Tomato, Eggs"
+          id="shoppingBasket"
+        />
+        <button
+          class="button"
+          value="Put item in basket"
+          onclick="checkItems()"
+        >
+          Missed anything?
+        </button>
+        <p id="reminder"></p>
+      </div>
     </div>
     <script>
-      console.log("test");
       ("use strict");
 
+      const basket = document.getElementById("shoppingBasket");
       const shoppingList = [];
 
       function addItem() {
@@ -35,15 +58,47 @@
         displayList();
       }
 
-      function deleteItem() {}
+      function deleteItem(itemToDelete) {
+        //delete the item use splice method
+        shoppingList.splice(itemToDelete, 1);
+        displayList();
+      }
 
       function displayList() {
         document.getElementById("display").innerHTML = ""; //clear display
         for (let shoppingListItem of shoppingList) {
-          // for each item in the shoppingList array, display items
-          document.getElementById(
-            "display"
-          ).innerHTML += `${shoppingListItem.item} x ${shoppingListItem.quantity}`;
+          // loop through the wway and set the content to what is currently on the page plus new item
+          document.getElementById("display").innerHTML += `${
+            shoppingListItem.item
+          } x ${
+            shoppingListItem.quantity
+          } <span style="cursor:pointer" onclick="deleteItem(${shoppingList.indexOf(
+            shoppingListItem
+          )})">&#10062</span><br />`; // adds delete button for each item on click
+        }
+      }
+
+      function checkItems() {
+        let splitBasket = basket.value.toLowerCase().split(", ");
+
+        const itemsStillToBuy = shoppingList.filter(function (
+          shoppingListElement
+        ) {
+          const itemInBasket = shoppingListElement.item.toLowerCase();
+          return !splitBasket.includes(itemInBasket);
+        });
+
+        if (itemsStillToBuy.length !== 0) {
+          document.getElementById("reminder").innerHTML =
+            "Here are the items you still need to get:<br />";
+          for (let itemStillToBuy of itemsStillToBuy) {
+            document.getElementById(
+              "reminder"
+            ).innerHTML += `${itemStillToBuy.item} x ${itemStillToBuy.quantity} <br />`;
+          }
+        } else {
+          document.getElementById("reminder").innerHTML =
+            "------ YOU GOT EVERYTHING! :) ------";
         }
       }
     </script>
